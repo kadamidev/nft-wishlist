@@ -1,0 +1,150 @@
+.container {
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  .logo {
+    width: 80%;
+    margin-top: 20px;
+  }
+
+  .menuContainer {
+    margin-top: 30px;
+    width: 90%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+
+    .createListBtn {
+      margin-bottom: 20px;
+      border: 2px solid var(--primary-color);
+      background: white;
+      border-radius: 50px;
+      font-weight: bold;
+      font-size: 30px;
+      width: 100%;
+      height: 65px;
+      color: var(--primary-color);
+      cursor: pointer;
+
+      &:hover {
+        background: var(--primary-color);
+        color: white;
+      }
+    }
+
+    .recentsContainer {
+      flex-grow: 2;
+      display: flex;
+      flex-direction: column;
+      span {
+        color: var(--primary-color);
+        font-size: 0.7em;
+      }
+
+      ul {
+        flex-grow: 2;
+        background-color: #f5f5f5;
+        list-style: none;
+        margin: 0;
+        padding: 0;
+        color: var(--primary-color);
+        border-radius: 10px;
+
+        li {
+          padding: 5px 10px;
+          cursor: pointer;
+
+          &:nth-of-type(2) {
+            background-color: white;
+          }
+
+          &:hover {
+            background-color: #d6ca8f20;
+          }
+        }
+      }
+    }
+
+    .joinForm {
+      margin-top: 30px;
+      margin-bottom: 20px;
+      position: relative;
+
+      input {
+        border: 2px solid var(--primary-color);
+        background: white;
+        border-radius: 50px;
+        font-size: 30px;
+        width: 100%;
+        height: 65px;
+        color: var(--primary-color);
+        padding: 0 20px;
+
+        &:focus {
+          outline: none;
+        }
+      }
+
+      button {
+        position: absolute;
+        width: 120px;
+        height: 65px;
+        right: 2px;
+        border: 2px solid var(--primary-color);
+        border-right: none;
+        border-radius: 30px;
+        background: none;
+        font-weight: bold;
+        color: var(--primary-color);
+        font-size: 30px;
+
+        &:hover {
+          background: var(--primary-color);
+          color: white;
+        }
+      }
+    }
+  }
+}
+
+@media (min-width: 768px) {
+  .container {
+    .logo {
+      width: 500px;
+    }
+
+    .menuContainer {
+      max-width: 500px;
+      max-height: 500px;
+      border: 2px solid var(--primary-color);
+      border-radius: 50px;
+      align-items: center;
+      padding: 40px 0;
+
+      .createListBtn {
+        width: 80%;
+        font-size: 40px;
+      }
+
+      .recentsContainer {
+        width: 80%;
+      }
+
+      .joinForm {
+        width: 80%;
+        margin-bottom: 0;
+        input {
+        }
+
+        button {
+          width: 150px;
+          font-size: 40px;
+        }
+      }
+    }
+  }
+}
