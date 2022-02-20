@@ -3,6 +3,7 @@ import config from "config"
 import routes from "./routes"
 import helmet from "helmet"
 import connect from "./utils/connect"
+import logger from "./utils/logger"
 
 const app = express()
 const port = config.get<number>("port")
@@ -13,6 +14,6 @@ app.use(express.json())
 routes(app)
 
 app.listen(port, async () => {
-  console.log(`express node server listening on port ${port}`)
+  logger.info(`express node server listening on port ${port}`)
   await connect()
 })
