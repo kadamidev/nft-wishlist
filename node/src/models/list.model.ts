@@ -1,13 +1,11 @@
 import mongoose from "mongoose"
 import bcrypt from "bcrypt"
 import config from "config"
-
 export interface ListInput {
   password?: string
 }
 
 export interface ListDocument extends ListInput, mongoose.Document {
-  code: string
   items?: string[]
   createdAt: Date
   updatedAt: Date
@@ -16,7 +14,6 @@ export interface ListDocument extends ListInput, mongoose.Document {
 
 const listSchema = new mongoose.Schema(
   {
-    code: { type: String, required: true, unique: true },
     password: { type: String },
     items: { type: Array },
   },
@@ -25,20 +22,23 @@ const listSchema = new mongoose.Schema(
   }
 )
 
-listSchema.pre("save", async function (next) {
-  let list = this as ListDocument
+listSchema.pre(/^(updateOne|save|findOneAndUpdate)/, async function (next) {
+  const list: any = this
+  const salt = await bcrypt.genSalt(config.get<number>("saltWorkFactor"))
 
-  if (!list.password || !list.isModified("password")) {
+  if (list.password) {
+    if (list.isModified("password")) {
+      list.password = await bcrypt.hashSync(list.password, salt)
+    }
     return next()
   }
 
-  const salt = await bcrypt.genSalt(config.get<number>("saltWorkFactor"))
+  const password = list.getUpdate().password || false
+  if (password) {
+    list._update.password = await bcrypt.hashSync(password, salt)
+  }
 
-  const hash = await bcrypt.hashSync(list.password, salt)
-
-  list.password = hash
-
-  return next()
+  next()
 })
 
 listSchema.methods.comparePassword = async function (
@@ -50,6 +50,6 @@ listSchema.methods.comparePassword = async function (
   return false
 }
 
-const ListModel = mongoose.model("List", listSchema)
+const ListModel = mongoose.model<ListDocument>("List", listSchema)
 
 export default ListModel
