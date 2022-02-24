@@ -33,7 +33,7 @@ listSchema.pre(/^(updateOne|save|findOneAndUpdate)/, async function (next) {
     return next()
   }
 
-  const password = list.getUpdate().password || false
+  const password = list.getUpdate()?.password || false
   if (password) {
     list._update.password = await bcrypt.hashSync(password, salt)
   }

@@ -4,7 +4,7 @@ const params = {
   params: object({
     _id: string({
       required_error: "List ID is required",
-    }),
+    }).length(24, "Invalid List ID"),
   }),
 }
 

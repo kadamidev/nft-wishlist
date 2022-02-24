@@ -33,6 +33,7 @@ export async function getListHandler(
 ) {
   const listId = req.params._id
   const list = await findList({ _id: listId })
+  console.log(req.params._id.length)
 
   if (!list) return res.status(404).send("Invalid list")
   const cleaned = { ...list }
