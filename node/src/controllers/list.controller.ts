@@ -20,7 +20,9 @@ export async function createListHandler(
   try {
     const list = await createList(req.body)
 
-    return res.send(list)
+    const cleaned = { ...list }
+    delete cleaned.password
+    return res.send(cleaned)
   } catch (e: any) {
     logger.error(e)
     return res.status(400).send(e.message)
