@@ -1,11 +1,18 @@
 import mongoose, { FilterQuery } from "mongoose"
 import bcrypt from "bcrypt"
 import config from "config"
+export interface MongoResult {
+  _doc: any
+}
+
 export interface ListInput {
   password?: string
 }
 
-export interface ListDocument extends ListInput, mongoose.Document {
+export interface ListDocument
+  extends ListInput,
+    MongoResult,
+    mongoose.Document {
   items?: string[]
   createdAt: Date
   updatedAt: Date
@@ -52,7 +59,7 @@ const ListModel = mongoose.model<ListDocument>("List", listSchema)
 export default ListModel
 
 // listSchema.pre(/^(updateOne|save|findOneAndUpdate)/, async function (next) {
-//   const list: FilterQuery<ListDocument> = this
+//   const list: FilterQuery<ListDocument>  | ListDocument = this
 //   const salt = await bcrypt.genSalt(config.get<number>("saltWorkFactor"))
 
 //   if (list.password) {

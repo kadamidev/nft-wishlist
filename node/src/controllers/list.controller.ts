@@ -22,7 +22,7 @@ export async function createListHandler(
 
     const cleaned = { ...list }
     delete cleaned.password
-    return res.send(cleaned)
+    return res.send(cleaned._doc)
   } catch (e: any) {
     logger.error(e)
     return res.status(400).send(e.message)
@@ -35,7 +35,6 @@ export async function getListHandler(
 ) {
   const listId = req.params._id
   const list = await findList({ _id: listId })
-  console.log(req.params._id.length)
 
   if (!list) return res.status(404).send("Invalid list")
   const cleaned = { ...list }

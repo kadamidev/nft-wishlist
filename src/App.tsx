@@ -1,13 +1,59 @@
-import React, { useState } from "react"
+import React, { useEffect, useState } from "react"
 import styles from "./App.module.scss"
 import logo from "./img/logo.svg"
+import { useNavigate } from "react-router-dom"
+import useLocalStorage from "./utils/useLocalStorage"
 
 function App() {
   const [listId, setListId] = useState<string>("")
+  const [listInputPlaceholder, setListInputPlaceholder] =
+    useState<string>("enter list id")
+  const [recentsList, setRecentsList] = useLocalStorage<string[]>("recents", [])
+  const navigate = useNavigate()
 
-  const handleJoin = (e: React.FormEvent<HTMLFormElement>) => {
+  function addToRecents(id: string) {
+    const newRecents = [...recentsList]
+    const existsIdx = recentsList.findIndex((el) => el === id)
+    if (existsIdx !== -1) newRecents.splice(existsIdx, 1)
+
+    newRecents.unshift(id)
+    setRecentsList(newRecents)
+    console.log(recentsList)
+  }
+
+  const handleJoin = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
-    //query api for list id and redirect if successful
+
+    let domain = window.location.origin.split(":")[1]
+    let port = 3001
+    let url = `http://${domain}:${port}/api/list/${listId}`
+
+    const res = await fetch(url)
+    if (res.ok) {
+      const list = await res.json()
+      addToRecents(list._id)
+      setListId("")
+      navigate(`/list/${list._id}`)
+    } else {
+      setListInputPlaceholder("invalid list id")
+      setListId("")
+    }
+  }
+
+  const handleNewList = async () => {
+    let domain = window.location.origin.split(":")[1]
+    let port = 3001
+    let url = `http://${domain}:${port}/api/list`
+
+    const res = await fetch(url, {
+      method: "POST",
+      // headers: {
+      //   "Content-Type": "application/json",
+      // },
+    })
+    const newList = await res.json()
+    addToRecents(newList._id)
+    navigate(`/list/${newList._id}`)
   }
 
   return (
@@ -15,22 +61,32 @@ function App() {
       <img src={logo} alt="NFT Wishlist Logo" className={styles.logo} />
 
       <div className={styles.menuContainer}>
-        <button className={styles.createListBtn}>CREATE NEW LIST</button>
+        <button className={styles.createListBtn} onClick={handleNewList}>
+          CREATE NEW LIST
+        </button>
 
         <div className={styles.recentsContainer}>
-          <span>Recently Visited</span>
+          <div className={styles.recentsHeaders}>
+            <span>Recently Visited</span>
+            <span className={styles.clear} onClick={() => setRecentsList([])}>
+              Clear
+            </span>
+          </div>
           <ul>
-            <li>12345</li>
-            <li>67891</li>
-            <li>112134</li>
+            {recentsList.map((id) => (
+              <li onClick={() => navigate(`/list/${id}`)}>{id}</li>
+            ))}
           </ul>
         </div>
         <form className={styles.joinForm} onSubmit={(e) => handleJoin(e)}>
           <input
             type="text"
-            placeholder="enter list id"
+            placeholder={listInputPlaceholder}
             value={listId}
             onChange={(e) => setListId(e.target.value)}
+            onClick={() => {
+              setListInputPlaceholder("enter list id")
+            }}
           />
           <button type="submit">JOIN</button>
         </form>

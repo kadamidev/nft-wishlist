@@ -3,7 +3,8 @@ import ListModel, { ListInput, ListDocument } from "../models/list.model"
 
 export async function createList(input?: ListInput) {
   try {
-    return await ListModel.create(input)
+    const newList = await ListModel.create(input)
+    return newList
   } catch (e: any) {
     throw new Error(e)
   }
