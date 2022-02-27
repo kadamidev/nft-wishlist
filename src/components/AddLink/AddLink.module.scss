@@ -1,0 +1,65 @@
+.linkInputContainer {
+  display: flex;
+  align-items: center;
+  position: relative;
+  width: 100%;
+  input {
+    height: 60px;
+    width: 100%;
+    background: white;
+    border: 2px solid var(--primary-color);
+    border-radius: 50px;
+    color: var(--primary-color);
+    padding-right: 55px;
+    padding-left: 10px;
+    font-size: 25px;
+
+    &:focus {
+      outline: none;
+    }
+  }
+
+  button {
+    width: 45px;
+    height: 45px;
+    border-radius: 100%;
+    background: var(--primary-color);
+    border: none;
+    color: white;
+    font-weight: bold;
+    font-size: 30px;
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    position: absolute;
+    right: 8px;
+    box-shadow: 0px 0px 4px rgba(0, 0, 0, 0.25);
+    cursor: pointer;
+    transition: 0.1s;
+
+    &:active {
+      transform: scale(1.1);
+      transition: 0.1s;
+      box-shadow: 0px 0px 8px rgba(0, 0, 0, 0.25);
+    }
+  }
+}
+
+@media (min-width: 768px) {
+  .linkInputContainer {
+    width: 768px;
+    input {
+      width: 768px;
+      height: 80px;
+      font-size: 40px;
+      padding-left: 15px;
+      padding-right: 75px;
+    }
+
+    button {
+      height: 65px;
+      width: 65px;
+      font-size: 50px;
+    }
+  }
+}

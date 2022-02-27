@@ -3,7 +3,11 @@ import { useNavigate } from "react-router-dom"
 import logo from "../../img/logo.svg"
 import styles from "./Navbar.module.scss"
 
-const Navbar = () => {
+interface Props {
+  code: string
+}
+
+const Navbar: React.FC<Props> = ({ code }) => {
   const navigate = useNavigate()
   return (
     <nav className={styles.navContainer}>
@@ -15,7 +19,7 @@ const Navbar = () => {
       />
 
       <div className={styles.navRight}>
-        <button className={styles.code}>123456</button>
+        <button className={styles.code}>{code}</button>
         <button className={styles.share}>SHARE LINK</button>
       </div>
     </nav>
