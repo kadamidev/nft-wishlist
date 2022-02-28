@@ -1,0 +1,71 @@
+.cardContainer {
+  width: calc(50% - var(--lr-margin));
+  height: 300px;
+
+  background: white;
+  border: 2px solid var(--primary-color);
+  border-radius: 30px;
+  margin: var(--lr-margin) 0px;
+  overflow: hidden;
+
+  .image {
+    height: 200px;
+    width: 100%;
+    background-color: #f5f5f5;
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.1);
+    object-fit: cover;
+  }
+
+  section.info {
+    height: 100px;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    padding: 0 3px;
+
+    span {
+      color: var(--primary-color);
+    }
+
+    .name {
+      font-weight: bold;
+    }
+    .collectionName {
+      font-size: 0.8em;
+    }
+
+    .bottomButtons {
+      img {
+        width: 30px;
+        height: 30px;
+        position: absolute;
+        cursor: pointer;
+        bottom: 14px;
+        --lr-offset: 8px;
+      }
+
+      .trashIcon {
+        left: var(--lr-offset);
+      }
+
+      .osIcon {
+        right: var(--lr-offset);
+      }
+    }
+  }
+}
+
+@media (min-width: 768px) {
+  .cardContainer {
+    width: calc(33% - var(--lr-margin));
+  }
+}
+
+@media (min-width: 1024px) {
+  .cardContainer {
+    width: calc(25% - var(--lr-margin));
+
+    .sectionInfo {
+    }
+  }
+}
