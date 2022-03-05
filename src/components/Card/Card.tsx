@@ -1,22 +1,12 @@
 import React, { useEffect, useState } from "react"
-// import { IList } from "../../models"
 import styles from "./Card.module.scss"
 import trashSvg from "../../assets/trash.svg"
 import osSvg from "../../assets/os.svg"
 import { Item } from "../../List"
+import leanAsset, { IAsset } from "../../utils/leanAsset"
 
 interface Props {
   item: Item
-}
-
-interface ICollection {
-  name: string
-}
-
-interface IAsset {
-  name?: string
-  collection: ICollection
-  image_url: string
 }
 
 const Card: React.FC<Props> = ({ item }) => {
@@ -34,29 +24,29 @@ const Card: React.FC<Props> = ({ item }) => {
 
     if (cached) {
       setAsset(JSON.parse(cached))
-    } else {
-      fetchSetCacheAsset()
+    } else if (item.contract != "loading") {
+      fetchAndCacheAsset()
     }
   }, [])
 
-  async function fetchSetCacheAsset() {
+  async function fetchAndCacheAsset() {
     const res = await fetch(
       `https://api.opensea.io/api/v1/asset/${item.contract}/${item.tokenId}/?include_orders=true`
     )
     const asset = await res.json()
-    const cleaned: IAsset = {
-      name: asset.name,
-      image_url: asset.image_url,
-      collection: { name: asset.collection.name },
-    }
+    const lean = leanAsset(asset)
+
     window.localStorage.setItem(
       `${item.contract}/${item.tokenId}`,
-      JSON.stringify(cleaned)
+      JSON.stringify(lean)
     )
-    setAsset(cleaned)
+    setAsset(lean)
   }
   return (
-    <li className={styles.cardContainer}>
+    <li
+      className={styles.cardContainer}
+      style={asset.image_url === "loading" ? { display: "none" } : undefined}
+    >
       <img src={asset.image_url} className={styles.image}></img>
 
       <section className={styles.info}>

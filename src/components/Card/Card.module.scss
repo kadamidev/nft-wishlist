@@ -13,7 +13,7 @@
     width: 100%;
     background-color: #f5f5f5;
     box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.1);
-    object-fit: scale-down; //cover
+    object-fit: cover; //cover
   }
 
   section.info {
@@ -52,6 +52,10 @@
         right: var(--lr-offset);
       }
     }
+  }
+
+  &:hover {
+    transform: scale(1.02);
   }
 }
 

@@ -17,20 +17,6 @@ export const hardcodedItems = [
   },
 ]
 
-const handleNewList = async () => {
-  let domain = window.location.origin.split(":")[1]
-  let port = 3001
-  let url = `http://${domain}:${port}/api/list`
-
-  const res = await fetch(url, {
-    method: "POST",
-    // headers: {
-    //   "Content-Type": "application/json",
-    // },
-  })
-  const newList = await res.json()
-}
-
 const List = () => {
   const [items, setItems] = useState<Item[]>(hardcodedItems)
   const location = useLocation()
@@ -45,6 +31,7 @@ const List = () => {
       const res = await fetch(url)
       const list = await res.json()
       console.log(list)
+      setItems(list.items)
     }
     fetchItems()
   }, [])
@@ -55,7 +42,7 @@ const List = () => {
         <Navbar code={"12345"} />
       </nav>
       <main>
-        <AddLink listId={listId} />
+        <AddLink listId={listId} items={items} setItems={setItems} />
 
         <ul className={styles.cardsGrid}>
           {items.map((item) => {
