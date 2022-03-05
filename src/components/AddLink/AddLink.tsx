@@ -1,12 +1,12 @@
 import React, { useState } from "react"
-import { Item } from "../../List"
+import { IItem } from "../../List"
 import styles from "./AddLink.module.scss"
 import leanAsset, { IAsset } from "../../utils/leanAsset"
 
 interface Props {
   listId: string
-  items: Item[]
-  setItems: React.Dispatch<React.SetStateAction<Item[]>>
+  items: IItem[]
+  setItems: React.Dispatch<React.SetStateAction<IItem[]>>
 }
 
 const AddLink = ({ listId, items, setItems }: Props) => {
@@ -26,9 +26,11 @@ const AddLink = ({ listId, items, setItems }: Props) => {
     const asset = await fetchAsset(contract, tokenId)
     if (!asset.id) {
       setPlaceholder("invalid link")
+      setTimeout(() => setPlaceholder("enter nft link"), 3000)
       return
     }
 
+    //add
     setPlaceholder("successfully added")
     setTimeout(() => setPlaceholder("enter nft link"), 3000)
     cacheAsset(asset, contract, tokenId)
@@ -44,7 +46,7 @@ const AddLink = ({ listId, items, setItems }: Props) => {
   }
 
   function optimisticAddItem(contract: string, tokenId: string) {
-    setItems([...items, { contract: contract, tokenId: parseInt(tokenId) }])
+    setItems([...items, { contract: contract, tokenId: tokenId }])
   }
 
   async function cacheAsset(asset: IAsset, contract: string, tokenId: string) {
@@ -63,7 +65,7 @@ const AddLink = ({ listId, items, setItems }: Props) => {
 
     const body = {
       contract: contract,
-      tokenId: parseInt(tokenId),
+      tokenId: tokenId,
     }
 
     const res = await fetch(url, {

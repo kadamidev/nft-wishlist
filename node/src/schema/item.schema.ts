@@ -1,4 +1,4 @@
-import { object, string, number, TypeOf } from "zod"
+import { object, string, TypeOf } from "zod"
 
 const payload = {
   body: object({
@@ -6,7 +6,7 @@ const payload = {
       42,
       "Invalid contract"
     ),
-    tokenId: number({ required_error: "TokenID is required" }),
+    tokenId: string({ required_error: "TokenID is required" }),
   }),
 }
 

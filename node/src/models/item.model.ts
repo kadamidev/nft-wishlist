@@ -3,7 +3,7 @@ import { MongoResult } from "./list.model"
 
 export interface ItemInput {
   contract: string
-  tokenId: number
+  tokenId: string
 }
 
 export interface ItemDocument
@@ -17,7 +17,7 @@ export interface ItemDocument
 export const itemSchema = new mongoose.Schema(
   {
     contract: { type: String, required: true },
-    tokenId: { type: Number, required: true },
+    tokenId: { type: String, required: true },
   },
   {
     timestamps: true,

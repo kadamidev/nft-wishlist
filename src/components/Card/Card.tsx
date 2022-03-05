@@ -2,11 +2,11 @@ import React, { useEffect, useState } from "react"
 import styles from "./Card.module.scss"
 import trashSvg from "../../assets/trash.svg"
 import osSvg from "../../assets/os.svg"
-import { Item } from "../../List"
+import { IItem } from "../../List"
 import leanAsset, { IAsset } from "../../utils/leanAsset"
 
 interface Props {
-  item: Item
+  item: IItem
 }
 
 const Card: React.FC<Props> = ({ item }) => {

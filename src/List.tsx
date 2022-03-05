@@ -5,20 +5,20 @@ import AddLink from "./components/AddLink/AddLink"
 import Card from "./components/Card/Card"
 import { useLocation } from "react-router-dom"
 
-export interface Item {
-  tokenId: number
+export interface IItem {
+  tokenId: string
   contract: string
 }
 
 export const hardcodedItems = [
   {
     contract: "loading",
-    tokenId: 1111,
+    tokenId: "1111",
   },
 ]
 
 const List = () => {
-  const [items, setItems] = useState<Item[]>(hardcodedItems)
+  const [items, setItems] = useState<IItem[]>(hardcodedItems)
   const location = useLocation()
   const listId = location.pathname.split("/")[2]
 
