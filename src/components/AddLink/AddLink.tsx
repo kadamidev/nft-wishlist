@@ -35,8 +35,11 @@ const AddLink = ({ listId, items, setItems }: Props) => {
     setPlaceholder("successfully added")
     setTimeout(() => setPlaceholder("enter nft link"), 3000)
     cacheAsset(asset, contract, tokenId)
-    optimisticAddItem(contract, tokenId)
-    persistItem(contract, tokenId)
+    const optimisticItem = optimisticAddItem(contract, tokenId)
+    const dbId = await persistItem(contract, tokenId)
+
+    //update items id
+    setItems([...items, { ...optimisticItem, _id: dbId }])
   }
 
   async function fetchAsset(contract: string, tokenId: string) {
@@ -47,7 +50,13 @@ const AddLink = ({ listId, items, setItems }: Props) => {
   }
 
   function optimisticAddItem(contract: string, tokenId: string) {
-    setItems([...items, { contract: contract, tokenId: tokenId }])
+    const newItem = {
+      contract: contract,
+      tokenId: tokenId,
+      _id: Date.now().toString(),
+    }
+    setItems([...items, newItem])
+    return newItem
   }
 
   async function cacheAsset(asset: IAsset, contract: string, tokenId: string) {
@@ -76,6 +85,8 @@ const AddLink = ({ listId, items, setItems }: Props) => {
       },
       body: JSON.stringify(body),
     })
+    const item = await res.json()
+    return item._id
   }
 
   return (

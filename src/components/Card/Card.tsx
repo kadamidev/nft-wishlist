@@ -4,12 +4,14 @@ import trashSvg from "../../assets/trash.svg"
 import osSvg from "../../assets/os.svg"
 import { IItem } from "../../List"
 import leanAsset, { IAsset } from "../../utils/leanAsset"
-
 interface Props {
   item: IItem
+  listId: string
+  items: IItem[]
+  setItems: React.Dispatch<React.SetStateAction<IItem[]>>
 }
 
-const Card: React.FC<Props> = ({ item }) => {
+const Card: React.FC<Props> = ({ item, listId, items, setItems }) => {
   const [asset, setAsset] = useState<IAsset>({
     name: "loading",
     collection: { name: "loading" },
@@ -42,6 +44,16 @@ const Card: React.FC<Props> = ({ item }) => {
     )
     setAsset(lean)
   }
+
+  async function deleteItem() {
+    let domain = window.location.origin.split(":")[1]
+    let port = 3001
+    let url = `http://${domain}:${port}/api/list/${listId}/item/${item._id}`
+
+    await fetch(url, { method: "DELETE" })
+    setItems(items.filter((el) => el._id !== item._id))
+  }
+
   return (
     <li
       className={styles.cardContainer}
@@ -56,7 +68,12 @@ const Card: React.FC<Props> = ({ item }) => {
         <span className={styles.collectionName}>{asset.collection.name}</span>
 
         <div className={styles.bottomButtons}>
-          <img className={styles.trashIcon} src={trashSvg} alt="Delete icon" />
+          <img
+            className={styles.trashIcon}
+            src={trashSvg}
+            alt="Delete icon"
+            onClick={deleteItem}
+          />
           <img className={styles.osIcon} src={osSvg} alt="Opensea icon" />
         </div>
       </section>

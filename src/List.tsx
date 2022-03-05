@@ -8,6 +8,7 @@ import { useLocation } from "react-router-dom"
 export interface IItem {
   tokenId: string
   contract: string
+  _id?: string
 }
 
 export const hardcodedItems = [
@@ -45,8 +46,16 @@ const List = () => {
         <AddLink listId={listId} items={items} setItems={setItems} />
 
         <ul className={styles.cardsGrid}>
-          {items.map((item) => {
-            return <Card key={item.contract + item.tokenId} item={item} />
+          {items.map((item, index) => {
+            return (
+              <Card
+                key={item.contract + item.tokenId + index}
+                item={item}
+                listId={listId}
+                items={items}
+                setItems={setItems}
+              />
+            )
           })}
         </ul>
       </main>
