@@ -1,5 +1,9 @@
 import { Express, Request, Response, NextFunction } from "express"
 import {
+  createItemHandler,
+  deleteItemHandler,
+} from "./controllers/item.controller"
+import {
   getListHandler,
   createListHandler,
   deleteListHandler,
@@ -12,6 +16,7 @@ import {
   getListSchema,
   updateListSchema,
 } from "./schema/list.schema"
+import { createItemSchema, deleteItemSchema } from "./schema/item.schema"
 
 function routes(app: Express) {
   app
@@ -23,6 +28,14 @@ function routes(app: Express) {
     .get(validateResource(getListSchema), getListHandler)
     .delete(validateResource(deleteListSchema), deleteListHandler)
     .put(validateResource(updateListSchema), updateListHandler)
+
+  app
+    .route("/api/list/:_id/item")
+    .post(validateResource(createItemSchema), createItemHandler)
+
+  app
+    .route("/api/list/:_id/item/:itemId")
+    .delete(validateResource(deleteItemSchema), deleteItemHandler)
 }
 
 export default routes

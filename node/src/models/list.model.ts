@@ -1,6 +1,7 @@
-import mongoose, { FilterQuery } from "mongoose"
+import mongoose, { FilterQuery, Types } from "mongoose"
 import bcrypt from "bcrypt"
 import config from "config"
+import { ItemDocument, itemSchema } from "./item.model"
 export interface MongoResult {
   _doc: any
 }
@@ -13,7 +14,7 @@ export interface ListDocument
   extends ListInput,
     MongoResult,
     mongoose.Document {
-  items?: string[]
+  items: Types.DocumentArray<ItemDocument>
   createdAt: Date
   updatedAt: Date
   comparePassword(candidatePassword: string): Promise<Boolean>
@@ -22,7 +23,7 @@ export interface ListDocument
 const listSchema = new mongoose.Schema(
   {
     password: { type: String },
-    items: { type: Array },
+    items: { type: [itemSchema] },
   },
   {
     timestamps: true,
@@ -57,22 +58,3 @@ listSchema.pre(/^(updateOne|findOneAndUpdate)/, async function (next) {
 const ListModel = mongoose.model<ListDocument>("List", listSchema)
 
 export default ListModel
-
-// listSchema.pre(/^(updateOne|save|findOneAndUpdate)/, async function (next) {
-//   const list: FilterQuery<ListDocument>  | ListDocument = this
-//   const salt = await bcrypt.genSalt(config.get<number>("saltWorkFactor"))
-
-//   if (list.password) {
-//     if (list.isModified("password")) {
-//       list.password = await bcrypt.hashSync(list.password, salt)
-//     }
-//     return next()
-//   }
-
-//   const password = list.getUpdate().password || false
-//   if (password) {
-//     list._update.password = await bcrypt.hashSync(password, salt)
-//   }
-
-//   next()
-// })
