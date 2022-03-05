@@ -13,7 +13,8 @@ const AddLink = ({ listId, items, setItems }: Props) => {
   const [link, setLink] = useState<string>("")
   const [placeholder, setPlaceholder] = useState<string>("enter nft link")
 
-  async function handleAddItem() {
+  async function handleAddItem(e: React.FormEvent<HTMLFormElement>) {
+    e.preventDefault()
     if (!link) return
     setLink("")
     setPlaceholder("Adding item...")
@@ -78,15 +79,18 @@ const AddLink = ({ listId, items, setItems }: Props) => {
   }
 
   return (
-    <div className={styles.linkInputContainer}>
+    <form
+      onSubmit={(e) => handleAddItem(e)}
+      className={styles.linkInputContainer}
+    >
       <input
         type="text"
         placeholder={placeholder}
         value={link}
         onChange={(e) => setLink(e.target.value)}
       />
-      <button onClick={handleAddItem}>+</button>
-    </div>
+      <button type="submit">+</button>
+    </form>
   )
 }
 
