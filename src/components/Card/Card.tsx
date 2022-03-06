@@ -74,7 +74,11 @@ const Card: React.FC<Props> = ({ item, listId, items, setItems }) => {
             alt="Delete icon"
             onClick={deleteItem}
           />
-          <img className={styles.osIcon} src={osSvg} alt="Opensea icon" />
+          <a
+            href={`https://opensea.io/assets/${item.contract}/${item.tokenId}`}
+          >
+            <img className={styles.osIcon} src={osSvg} alt="Opensea icon" />
+          </a>
         </div>
       </section>
     </li>
