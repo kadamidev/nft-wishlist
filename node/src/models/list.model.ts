@@ -2,6 +2,9 @@ import mongoose, { FilterQuery, Types } from "mongoose"
 import bcrypt from "bcrypt"
 import config from "config"
 import { ItemDocument, itemSchema } from "./item.model"
+import { customAlphabet } from "nanoid/non-secure"
+
+const nanoid = customAlphabet("abcdefghijklmnopqrstuvwxyz0123456789", 10)
 export interface MongoResult {
   _doc: any
 }
@@ -14,6 +17,7 @@ export interface ListDocument
   extends ListInput,
     MongoResult,
     mongoose.Document {
+  listId: String
   items: Types.DocumentArray<ItemDocument>
   createdAt: Date
   updatedAt: Date
@@ -22,6 +26,12 @@ export interface ListDocument
 
 const listSchema = new mongoose.Schema(
   {
+    listId: {
+      type: String,
+      required: true,
+      unique: true,
+      default: () => nanoid(),
+    },
     password: { type: String },
     items: { type: [itemSchema] },
   },

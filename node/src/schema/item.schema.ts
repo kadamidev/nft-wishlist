@@ -12,18 +12,18 @@ const payload = {
 
 export const createItemSchema = object({
   params: object({
-    _id: string({
+    listId: string({
       required_error: "List ID is required",
-    }).length(24, "Invalid List ID"),
+    }).length(10, "Invalid List ID"),
   }),
   ...payload,
 })
 
 export const deleteItemSchema = object({
   params: object({
-    _id: string({
+    listId: string({
       required_error: "List ID is required",
-    }).length(24, "Invalid List ID"),
+    }).length(10, "Invalid List ID"),
     itemId: string({ required_error: "Item ID is required" }).length(
       24,
       "Invalid Item ID"

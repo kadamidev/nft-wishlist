@@ -2,9 +2,9 @@ import { object, string, TypeOf } from "zod"
 
 const params = {
   params: object({
-    _id: string({
+    listId: string({
       required_error: "List ID is required",
-    }).length(24, "Invalid List ID"),
+    }).length(10, "Invalid List ID"),
   }),
 }
 

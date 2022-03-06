@@ -31,9 +31,9 @@ function App() {
     const res = await fetch(url)
     if (res.ok) {
       const list = await res.json()
-      addToRecents(list._id)
+      addToRecents(list.listId)
       setListId("")
-      navigate(`/list/${list._id}`)
+      navigate(`/list/${list.listId}`)
     } else {
       setListInputPlaceholder("invalid list id")
       setListId("")
@@ -52,8 +52,8 @@ function App() {
       // },
     })
     const newList = await res.json()
-    addToRecents(newList._id)
-    navigate(`/list/${newList._id}`)
+    addToRecents(newList.listId)
+    navigate(`/list/${newList.listId}`)
   }
 
   return (

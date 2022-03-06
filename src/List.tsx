@@ -40,7 +40,7 @@ const List = () => {
   return (
     <div className={styles.container}>
       <nav>
-        <Navbar code={"12345"} />
+        <Navbar code={listId} />
       </nav>
       <main>
         <AddLink listId={listId} items={items} setItems={setItems} />

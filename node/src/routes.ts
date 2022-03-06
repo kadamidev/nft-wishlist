@@ -24,17 +24,17 @@ function routes(app: Express) {
     .post(validateResource(createListSchema), createListHandler)
 
   app
-    .route("/api/list/:_id")
+    .route("/api/list/:listId")
     .get(validateResource(getListSchema), getListHandler)
     .delete(validateResource(deleteListSchema), deleteListHandler)
     .put(validateResource(updateListSchema), updateListHandler)
 
   app
-    .route("/api/list/:_id/item")
+    .route("/api/list/:listId/item")
     .post(validateResource(createItemSchema), createItemHandler)
 
   app
-    .route("/api/list/:_id/item/:itemId")
+    .route("/api/list/:listId/item/:itemId")
     .delete(validateResource(deleteItemSchema), deleteItemHandler)
 }
 

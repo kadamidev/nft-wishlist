@@ -33,8 +33,8 @@ export async function getListHandler(
   req: Request<GetListInput["params"]>,
   res: Response
 ) {
-  const listId = req.params._id
-  const list = await findList({ _id: listId })
+  const { listId } = req.params
+  const list = await findList({ listId: listId })
 
   if (!list) return res.status(404).send("Invalid list")
   const cleaned = { ...list }
@@ -47,9 +47,9 @@ export async function deleteListHandler(
   req: Request<DeleteListInput["params"]>,
   res: Response
 ) {
-  const listId = req.params._id
+  const { listId } = req.params
 
-  const list = await deleteList({ _id: listId })
+  const list = await deleteList({ listId: listId })
 
   if (!list) {
     res.status(404).send("Invalid list or update properties")
@@ -61,10 +61,12 @@ export async function updateListHandler(
   req: Request<UpdateListInput["params"], {}, UpdateListInput["body"]>,
   res: Response
 ) {
-  const listId = req.params._id
+  const { listId } = req.params
   const update = req.body
 
-  const list = await findAndUpdateList({ _id: listId }, update, { new: true })
+  const list = await findAndUpdateList({ listId: listId }, update, {
+    new: true,
+  })
 
   if (!list) {
     res.status(404).send("Invalid list")

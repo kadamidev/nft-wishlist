@@ -8,8 +8,8 @@ export async function createItemHandler(
   res: Response
 ) {
   try {
-    const listId = req.params._id
-    const item = await createItem({ _id: listId }, req.body)
+    const { listId } = req.params
+    const item = await createItem({ listId: listId }, req.body)
     return res.send(item)
   } catch (e: any) {
     logger.error(e)
@@ -22,8 +22,8 @@ export async function deleteItemHandler(
   res: Response
 ) {
   try {
-    const { _id: listId, itemId } = req.params
-    const item = await deleteItem({ _id: listId }, itemId)
+    const { listId, itemId } = req.params
+    const item = await deleteItem({ listId: listId }, itemId)
     return res.send(item)
   } catch (e: any) {
     logger.error(e)
