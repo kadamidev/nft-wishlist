@@ -2,6 +2,7 @@ import React, { useState } from "react"
 import { useNavigate } from "react-router-dom"
 import logo from "../../img/logo.svg"
 import styles from "./Navbar.module.scss"
+import copy from "copy-to-clipboard"
 
 interface Props {
   code: string
@@ -14,19 +15,19 @@ const Navbar: React.FC<Props> = ({ code }) => {
   const [copiedLink, setCopiedLink] = useState<boolean>(false)
 
   function handleCopyCode() {
-    navigator.clipboard.writeText(code)
+    copy(code)
     setCopiedCode(true)
     setTimeout(() => {
       setCopiedCode(false)
-    }, 3000)
+    }, 2000)
   }
 
   function handleCopyLink() {
-    navigator.clipboard.writeText(window.location.href)
+    copy(window.location.href)
     setCopiedLink(true)
     setTimeout(() => {
       setCopiedLink(false)
-    }, 3000)
+    }, 2000)
   }
 
   return (
