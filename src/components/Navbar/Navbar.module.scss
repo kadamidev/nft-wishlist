@@ -111,3 +111,11 @@
     }
   }
 }
+
+@media (min-width: 1440px) {
+  .navContainer {
+    --side-padding: calc((100% - 1440px) / 2);
+    padding-left: var(--side-padding);
+    padding-right: var(--side-padding);
+  }
+}

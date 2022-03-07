@@ -62,10 +62,12 @@ const Card: React.FC<Props> = ({ item, listId, items, setItems }) => {
       <img src={asset.image_url} className={styles.image}></img>
 
       <section className={styles.info}>
-        <span className={styles.name}>
-          {asset.name ? asset.name : `#${item.tokenId}`}
-        </span>
-        <span className={styles.collectionName}>{asset.collection.name}</span>
+        <div className={styles.textInfo}>
+          <span className={styles.name}>
+            {asset.name ? asset.name : `#${item.tokenId}`}
+          </span>
+          <span className={styles.collectionName}>{asset.collection.name}</span>
+        </div>
 
         <div className={styles.bottomButtons}>
           <img

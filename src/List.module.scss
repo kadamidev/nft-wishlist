@@ -1,4 +1,5 @@
 .container {
+  --item-width: 49%;
   nav {
     position: fixed;
     // width: 100%;
@@ -31,6 +32,15 @@
   .container {
     main {
       margin-top: 130px;
+    }
+  }
+}
+
+@media (min-width: 1440px) {
+  .container {
+    main {
+      margin-left: calc((100vw - 1440px) / 2);
+      width: 1440px;
     }
   }
 }
