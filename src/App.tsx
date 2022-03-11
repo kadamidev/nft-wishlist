@@ -24,9 +24,7 @@ function App() {
   const handleJoin = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
 
-    let domain = window.location.origin.split(":")[1]
-    let port = 3001
-    let url = `http://${domain}:${port}/api/list/${listId}`
+    let url = `/api/list/${listId}`
 
     const res = await fetch(url)
     if (res.ok) {
@@ -41,9 +39,7 @@ function App() {
   }
 
   const handleNewList = async () => {
-    let domain = window.location.origin.split(":")[1]
-    let port = 3001
-    let url = `http://${domain}:${port}/api/list`
+    let url = `/api/list`
 
     const res = await fetch(url, {
       method: "POST",

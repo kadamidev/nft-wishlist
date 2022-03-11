@@ -26,9 +26,7 @@ const List = () => {
 
   useEffect(() => {
     const fetchItems = async () => {
-      let domain = window.location.origin.split(":")[1]
-      let port = 3001
-      let url = `http://${domain}:${port}/api/list/${listId}`
+      let url = `/api/list/${listId}`
 
       const res = await fetch(url)
       const list = await res.json()

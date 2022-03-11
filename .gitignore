@@ -22,6 +22,12 @@ npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
 
+.env
 
-/node/config/
+
 /node/node_modules
+/node/npm-debug.log
+/node/.DS_Store
+/node/*.env
+/node/build
+/node/react_build

@@ -46,9 +46,7 @@ const Card: React.FC<Props> = ({ item, listId, items, setItems }) => {
   }
 
   async function deleteItem() {
-    let domain = window.location.origin.split(":")[1]
-    let port = 3001
-    let url = `http://${domain}:${port}/api/list/${listId}/item/${item._id}`
+    let url = `/api/list/${listId}/item/${item._id}`
 
     await fetch(url, { method: "DELETE" })
     setItems(items.filter((el) => el._id !== item._id))

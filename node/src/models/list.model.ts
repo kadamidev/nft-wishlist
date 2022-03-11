@@ -1,8 +1,9 @@
 import mongoose, { FilterQuery, Types } from "mongoose"
 import bcrypt from "bcrypt"
-import config from "config"
+// import config from "config"
 import { ItemDocument, itemSchema } from "./item.model"
 import { customAlphabet } from "nanoid/non-secure"
+import "dotenv/config"
 
 const nanoid = customAlphabet("abcdefghijklmnopqrstuvwxyz0123456789", 10)
 export interface MongoResult {
@@ -47,7 +48,8 @@ listSchema.pre("save", async function (next) {
     return next()
   }
 
-  const salt = await bcrypt.genSalt(config.get<number>("saltWorkFactor"))
+  const swf = parseInt(process.env.SALT_WORK_FACTOR!) || 10
+  const salt = await bcrypt.genSalt(swf)
   const hash = await bcrypt.hashSync(list.password, salt)
 
   list.password = hash
@@ -60,7 +62,8 @@ listSchema.pre(/^(updateOne|findOneAndUpdate)/, async function (next) {
 
   const password: undefined | string = list.getUpdate()?.password || false
   if (password) {
-    const salt = await bcrypt.genSalt(config.get<number>("saltWorkFactor"))
+    const swf = parseInt(process.env.SALT_WORK_FACTOR!) || 10
+    const salt = await bcrypt.genSalt(swf)
     list._update.password = await bcrypt.hashSync(password, salt)
   }
 })

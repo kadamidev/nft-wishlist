@@ -69,9 +69,7 @@ const AddLink = ({ listId, items, setItems }: Props) => {
   }
 
   async function persistItem(contract: string, tokenId: string) {
-    let domain = window.location.origin.split(":")[1]
-    let port = 3001
-    let url = `http://${domain}:${port}/api/list/${listId}/item`
+    let url = `/api/list/${listId}/item`
 
     const body = {
       contract: contract,
