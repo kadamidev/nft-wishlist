@@ -14,7 +14,15 @@ const port = process.env.PORT || 3001
 
 // app.use(cors())
 // app.options("*", cors()) // include before other routes
-app.use(helmet())
+app.use(
+  helmet.contentSecurityPolicy({
+    directives: {
+      "default-src": ["'self'", "api.opensea.io"],
+      "script-src": ["'self'", "'unsafe-inline'"],
+      "img-src": ["*"],
+    },
+  })
+)
 app.use(express.json())
 
 if (process.env.NODE_ENV === "production") {
