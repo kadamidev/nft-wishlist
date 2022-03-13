@@ -14,6 +14,7 @@ const port = process.env.PORT || 3001
 
 // app.use(cors())
 // app.options("*", cors()) // include before other routes
+
 app.use(
   helmet.contentSecurityPolicy({
     directives: {
@@ -23,6 +24,7 @@ app.use(
     },
   })
 )
+
 app.use(express.json())
 
 if (process.env.NODE_ENV === "production") {

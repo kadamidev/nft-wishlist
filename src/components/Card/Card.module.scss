@@ -1,22 +1,20 @@
 :root {
-  --card-width: calc(50% - var(--lr-margin));
+  --items-per-col: 2;
+  --n-of-row-gaps: calc(var(--items-per-col) - 1);
+  --total-col-gap: calc(var(--lr-margin) * var(--n-of-row-gaps));
+  --col-gap-per-item: calc(var(--total-col-gap) / var(--items-per-col));
+  --card-width: calc((100% / var(--items-per-col)) - var(--col-gap-per-item));
   --card-height: 300px;
   --text-info-size: 0.8em;
-  // --card-height: fit-content;
-}
-
-.placeholderCard {
-  width: var(--card-width);
-  height: 0px;
 }
 
 .cardContainer {
+  box-sizing: border-box;
   height: var(--card-height);
   width: var(--card-width);
   background: white;
   border: 2px solid var(--primary-color);
   border-radius: 30px;
-  margin: var(--lr-margin) 0px;
   overflow: hidden;
 
   .image {
@@ -79,7 +77,7 @@
 
 @media (min-width: 600px) {
   :root {
-    --card-width: calc(33% - var(--lr-margin));
+    --items-per-col: 3;
   }
 }
 
@@ -91,7 +89,7 @@
 
 @media (min-width: 900px) {
   :root {
-    --card-width: calc(25% - var(--lr-margin));
+    --items-per-col: 4;
     --text-info-size: 0.8em;
   }
 }
@@ -105,7 +103,7 @@
 
 @media (min-width: 1440px) {
   :root {
-    --card-width: calc(20% - var(--lr-margin));
+    --items-per-col: 5;
     --card-height: 400px;
     --text-info-size: 1em;
   }

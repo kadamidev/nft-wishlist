@@ -1,10 +1,9 @@
-import React, { useEffect, useState } from "react"
+import { useEffect, useState } from "react"
 import styles from "./List.module.scss"
 import Navbar from "./components/Navbar/Navbar"
 import AddLink from "./components/AddLink/AddLink"
 import Card from "./components/Card/Card"
 import { useLocation } from "react-router-dom"
-import cardStyles from "./components/Card/Card.module.scss"
 
 export interface IItem {
   tokenId: string
@@ -56,7 +55,6 @@ const List = () => {
               />
             )
           })}
-          <li className={cardStyles.placeholderCard}></li>
         </ul>
       </main>
     </div>

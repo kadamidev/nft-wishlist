@@ -21,7 +21,7 @@
     "node": "16.x"
   },
   "scripts": {
-    "dev": "PORT=3000 react-scripts start",
+    "dev": "react-scripts start",
     "build": "BUILD_PATH='./node/build/src/frontend' react-scripts build && cd node && npm install && npm run build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
@@ -48,5 +48,5 @@
   "devDependencies": {
     "typescript": "^4.5.5"
   },
-  "proxy": "http://localhost:3000"
+  "proxy": "http://localhost:3001"
 }

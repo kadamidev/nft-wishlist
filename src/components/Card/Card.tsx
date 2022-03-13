@@ -9,9 +9,10 @@ interface Props {
   listId: string
   items: IItem[]
   setItems: React.Dispatch<React.SetStateAction<IItem[]>>
+  key: string
 }
 
-const Card: React.FC<Props> = ({ item, listId, items, setItems }) => {
+const Card: React.FC<Props> = ({ item, listId, items, setItems, key }) => {
   const [asset, setAsset] = useState<IAsset>({
     name: "loading",
     collection: { name: "loading" },
@@ -56,6 +57,7 @@ const Card: React.FC<Props> = ({ item, listId, items, setItems }) => {
     <li
       className={styles.cardContainer}
       style={asset.image_url === "loading" ? { display: "none" } : undefined}
+      key={key}
     >
       <img src={asset.image_url} className={styles.image}></img>
 
@@ -75,6 +77,8 @@ const Card: React.FC<Props> = ({ item, listId, items, setItems }) => {
             onClick={deleteItem}
           />
           <a
+            target="_blank"
+            rel="noreferrer"
             href={`https://opensea.io/assets/${item.contract}/${item.tokenId}`}
           >
             <img className={styles.osIcon} src={osSvg} alt="Opensea icon" />
