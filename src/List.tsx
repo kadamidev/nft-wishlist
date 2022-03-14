@@ -4,6 +4,9 @@ import Navbar from "./components/Navbar/Navbar"
 import AddLink from "./components/AddLink/AddLink"
 import Card from "./components/Card/Card"
 import { useLocation } from "react-router-dom"
+import locked from "./assets/lock.svg"
+import unlocked from "./assets/unlock.svg"
+import AuthBtn from "./components/AuthBtn/AuthBtn"
 
 export interface IItem {
   tokenId: string
@@ -20,6 +23,9 @@ export const hardcodedItems = [
 
 const List = () => {
   const [items, setItems] = useState<IItem[]>(hardcodedItems)
+  const [locked, setLocked] = useState<boolean>(false)
+  const [showAuthMenu, setShowAuthMenu] = useState<boolean>(false)
+
   const location = useLocation()
   const listId = location.pathname.split("/")[2]
 
@@ -56,6 +62,10 @@ const List = () => {
             )
           })}
         </ul>
+
+        <div className={styles.authBtnWrapper}>
+          <AuthBtn locked={locked} setLocked={setLocked} />
+        </div>
       </main>
     </div>
   )

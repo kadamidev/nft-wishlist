@@ -12,6 +12,7 @@
     display: flex;
     flex-direction: column;
     align-items: center;
+    margin-bottom: 80px;
 
     ul.cardsGrid {
       width: 100%;
@@ -23,6 +24,12 @@
       margin-top: 20px;
       column-gap: var(--lr-margin);
       row-gap: var(--lr-margin);
+    }
+
+    .authBtnWrapper {
+      position: fixed;
+      bottom: var(--lr-margin);
+      left: var(--lr-margin);
     }
   }
 }
@@ -40,6 +47,10 @@
     main {
       margin-left: calc((100vw - 1440px) / 2);
       width: 1440px;
+
+      .authBtnWrapper {
+        left: calc((100vw - 1440px) / 2);
+      }
     }
   }
 }

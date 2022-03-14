@@ -1,0 +1,32 @@
+.lockBtn {
+  width: 60px;
+  height: 60px;
+  background: white;
+  cursor: pointer;
+  border: 2px solid var(--primary-color);
+  border-radius: 10px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  box-shadow: 0px 0px 4px rgba(0, 0, 0, 0.25);
+  transition: box-shadow 0.3s;
+
+  &:hover {
+    background: var(--primary-color);
+    box-shadow: 0px 0px 10px 1px rgba(0, 0, 0, 0.25);
+    transition: box-shadow 0.3s;
+
+    .lockImg {
+      filter: brightness(0) invert(1);
+    }
+
+    &:active {
+      transform: scale(1.03);
+    }
+  }
+
+  .lockImg {
+    width: 30px;
+    height: 40px;
+  }
+}
