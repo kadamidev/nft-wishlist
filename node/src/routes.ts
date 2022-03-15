@@ -1,4 +1,4 @@
-import { Express, Request, Response, NextFunction } from "express"
+import { Express } from "express"
 import {
   createItemHandler,
   deleteItemHandler,
@@ -17,6 +17,13 @@ import {
   updateListSchema,
 } from "./schema/list.schema"
 import { createItemSchema, deleteItemSchema } from "./schema/item.schema"
+import {
+  createListSessionHandler,
+  deleteSessionHandler,
+} from "./controllers/session.controller"
+import { createSessionSchema } from "./schema/session.schema"
+import deserializeToken from "./middleware/deserializeToken"
+import requireAuth from "./middleware/requireAuth"
 
 function routes(app: Express) {
   app
@@ -26,7 +33,7 @@ function routes(app: Express) {
   app
     .route("/api/list/:listId")
     .get(validateResource(getListSchema), getListHandler)
-    .delete(validateResource(deleteListSchema), deleteListHandler)
+    .delete(validateResource(deleteListSchema), requireAuth, deleteListHandler)
     .put(validateResource(updateListSchema), updateListHandler)
 
   app
@@ -36,6 +43,11 @@ function routes(app: Express) {
   app
     .route("/api/list/:listId/item/:itemId")
     .delete(validateResource(deleteItemSchema), deleteItemHandler)
+
+  app
+    .route("/api/sessions")
+    .post(validateResource(createSessionSchema), createListSessionHandler)
+    .delete(deserializeToken, requireAuth, deleteSessionHandler)
 }
 
 export default routes

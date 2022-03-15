@@ -68,6 +68,18 @@ listSchema.pre(/^(updateOne|findOneAndUpdate)/, async function (next) {
   }
 })
 
+listSchema.methods.comparePassword = async function (
+  password: string
+): Promise<boolean> {
+  let list = this as ListDocument
+
+  try {
+    return await bcrypt.compare(password, list.password!)
+  } catch (e) {
+    return false
+  }
+}
+
 const ListModel = mongoose.model<ListDocument>("List", listSchema)
 
 export default ListModel

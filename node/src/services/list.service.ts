@@ -38,3 +38,17 @@ export async function deleteList(query: FilterQuery<ListDocument>) {
     throw e
   }
 }
+
+export async function validatePassword(
+  query: FilterQuery<ListDocument>,
+  password: string
+) {
+  const list = await ListModel.findOne(query)
+
+  if (!list) return false
+
+  const isValid = await list.comparePassword(password)
+  if (!isValid) return false
+
+  return list
+}
