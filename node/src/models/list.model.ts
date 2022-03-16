@@ -11,7 +11,7 @@ export interface MongoResult {
 }
 
 export interface ListInput {
-  password?: string
+  password?: string | null
 }
 
 export interface ListDocument
@@ -33,7 +33,7 @@ const listSchema = new mongoose.Schema(
       unique: true,
       default: () => nanoid(),
     },
-    password: { type: String },
+    password: { type: String, default: null },
     items: { type: [itemSchema] },
   },
   {

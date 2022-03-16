@@ -12,6 +12,8 @@ import {
   GetListInput,
   DeleteListInput,
 } from "../schema/list.schema"
+import { createSession, updateSessions } from "../services/session.service"
+import generateTokens from "../utils/generateTokens"
 
 export async function createListHandler(
   req: Request<{}, {}, CreateListInput["body"]>,
@@ -47,32 +49,61 @@ export async function deleteListHandler(
   req: Request<DeleteListInput["params"]>,
   res: Response
 ) {
-  const { listId } = req.params
+  const listId = res.locals.auth.list_id
 
-  const list = await deleteList({ listId: listId })
-
-  if (!list) {
-    res.status(404).send("Invalid list or update properties")
-  }
-  return res.send(list)
-}
-
-export async function updateListHandler(
-  req: Request<UpdateListInput["params"], {}, UpdateListInput["body"]>,
-  res: Response
-) {
-  const { listId } = req.params
-  const update = req.body
-
-  const list = await findAndUpdateList({ listId: listId }, update, {
-    new: true,
-  })
+  const list = await deleteList({ _id: listId })
 
   if (!list) {
     res.status(404).send("Invalid list")
   }
+  return res.status(200).send({ message: "successfully deleted" })
+}
 
-  const cleaned = { ...list }
+export async function updateListHandler( //change pw
+  req: Request<UpdateListInput["params"], {}, UpdateListInput["body"]>,
+  res: Response
+) {
+  const { listId } = req.params
+
+  const list = await findList({ listId: listId })
+
+  if (!list) {
+    return res.status(404).send("Invalid list")
+  }
+  if (
+    list.password !== null &&
+    list._id.toString() !== res.locals.auth?.list_id
+  ) {
+    return res.sendStatus(403)
+  }
+
+  const updatedList = await findAndUpdateList(
+    { listId: listId },
+    { password: req.body.password },
+    {
+      new: true,
+    }
+  )
+
+  if (!updatedList) {
+    return res.status(404).send("failed to update")
+  }
+
+  if (req.body.password) {
+    const session = await createSession(updatedList._id)
+    const { accessToken, refreshToken, cookieOptions } = generateTokens(
+      session._id,
+      updatedList._id
+    )
+    res.cookie("x-access-token", accessToken, cookieOptions)
+    res.cookie("x-refresh-token", refreshToken, cookieOptions)
+  } else {
+    updateSessions({ list_id: updatedList._id }, { valid: false })
+    res.cookie("x-access-token", null)
+    res.cookie("x-refresh-token", null)
+  }
+
+  const cleaned = { ...updatedList }
   delete cleaned.password
 
   return res.send(cleaned)

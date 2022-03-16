@@ -22,7 +22,6 @@ import {
   deleteSessionHandler,
 } from "./controllers/session.controller"
 import { createSessionSchema } from "./schema/session.schema"
-import deserializeToken from "./middleware/deserializeToken"
 import requireAuth from "./middleware/requireAuth"
 
 function routes(app: Express) {
@@ -47,7 +46,7 @@ function routes(app: Express) {
   app
     .route("/api/sessions")
     .post(validateResource(createSessionSchema), createListSessionHandler)
-    .delete(deserializeToken, requireAuth, deleteSessionHandler)
+    .delete(requireAuth, deleteSessionHandler)
 }
 
 export default routes

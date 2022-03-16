@@ -12,7 +12,8 @@ const payload = {
   body: object({
     password: string()
       .min(4, "Password must be 4 characters or more")
-      .optional(),
+      .optional()
+      .nullable(),
   }),
 }
 
