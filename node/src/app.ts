@@ -11,6 +11,7 @@ import deserializeToken from "./middleware/deserializeToken"
 const app = express()
 const port = process.env.PORT || 3001
 
+app.use(helmet())
 app.use(
   helmet.contentSecurityPolicy({
     directives: {
