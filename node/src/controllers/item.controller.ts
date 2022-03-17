@@ -9,7 +9,14 @@ export async function createItemHandler(
 ) {
   try {
     const { listId } = req.params
-    const item = await createItem({ listId: listId }, req.body)
+    const item = await createItem(
+      { listId: listId },
+      req.body,
+      res.locals.auth?.list_id || null
+    )
+
+    if (item === "unauthed") return res.sendStatus(403)
+
     return res.send(item)
   } catch (e: any) {
     logger.error(e)
@@ -23,7 +30,12 @@ export async function deleteItemHandler(
 ) {
   try {
     const { listId, itemId } = req.params
-    const item = await deleteItem({ listId: listId }, itemId)
+    const item = await deleteItem(
+      { listId: listId },
+      itemId,
+      res.locals.auth?.list_id || null
+    )
+    if (item === "unauthed") return res.sendStatus(403)
     return res.send(item)
   } catch (e: any) {
     logger.error(e)
