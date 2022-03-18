@@ -43,9 +43,6 @@ function App() {
 
     const res = await fetch(url, {
       method: "POST",
-      // headers: {
-      //   "Content-Type": "application/json",
-      // },
     })
     const newList = await res.json()
     addToRecents(newList.listId)

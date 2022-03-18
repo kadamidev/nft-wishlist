@@ -7,11 +7,17 @@ import { useLocation } from "react-router-dom"
 import locked from "./assets/lock.svg"
 import unlocked from "./assets/unlock.svg"
 import AuthBtn from "./components/AuthBtn/AuthBtn"
+import AuthMenu from "./components/AuthMenu/AuthMenu"
 
 export interface IItem {
   tokenId: string
   contract: string
   _id?: string
+}
+
+export interface ISession {
+  status: boolean
+  list_id: string | null
 }
 
 export const hardcodedItems = [
@@ -24,6 +30,10 @@ export const hardcodedItems = [
 const List = () => {
   const [items, setItems] = useState<IItem[]>(hardcodedItems)
   const [locked, setLocked] = useState<boolean>(false)
+  const [session, setSession] = useState<ISession>({
+    status: false,
+    list_id: null,
+  })
   const [showAuthMenu, setShowAuthMenu] = useState<boolean>(false)
 
   const location = useLocation()
@@ -62,6 +72,10 @@ const List = () => {
             )
           })}
         </ul>
+
+        <div className={styles.authMenuWrapper}>
+          <AuthMenu locked={locked} session={session} />
+        </div>
 
         <div className={styles.authBtnWrapper}>
           <AuthBtn locked={locked} setLocked={setLocked} />
