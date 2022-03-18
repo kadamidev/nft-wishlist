@@ -32,9 +32,11 @@ if (process.env.NODE_ENV === "production") {
 
 routes(app)
 
-app.get("*", (req: Request, res: Response) => {
-  res.sendFile(path.join(__dirname, "frontend", "index.html"))
-})
+if (process.env.NODE_ENV === "production") {
+  app.get("*", (req: Request, res: Response) => {
+    res.sendFile(path.join(__dirname, "frontend", "index.html"))
+  })
+}
 
 app.listen(port, async () => {
   logger.info(`express node server listening on port ${port}`)
