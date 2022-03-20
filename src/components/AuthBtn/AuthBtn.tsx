@@ -5,12 +5,11 @@ import unlockedSvg from "../../assets/unlock.svg"
 
 interface Props {
   locked: boolean
-  setLocked: React.Dispatch<React.SetStateAction<boolean>>
 }
 
-const AuthBtn: React.FC<Props> = ({ locked, setLocked }) => {
+const AuthBtn: React.FC<Props> = ({ locked }) => {
   return (
-    <button className={styles.lockBtn} onClick={() => setLocked(!locked)}>
+    <button className={styles.lockBtn}>
       <img
         className={styles.lockImg}
         src={locked ? lockedSvg : unlockedSvg}

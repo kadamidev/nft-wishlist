@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react"
+import { useEffect, useState, useContext } from "react"
 import styles from "./List.module.scss"
 import Navbar from "./components/Navbar/Navbar"
 import AddLink from "./components/AddLink/AddLink"
@@ -8,6 +8,7 @@ import locked from "./assets/lock.svg"
 import unlocked from "./assets/unlock.svg"
 import AuthBtn from "./components/AuthBtn/AuthBtn"
 import AuthMenu from "./components/AuthMenu/AuthMenu"
+import { SessionContext, ISessionContext } from "./SessionContext"
 
 export interface IItem {
   tokenId: string
@@ -30,10 +31,11 @@ export const hardcodedItems = [
 const List = () => {
   const [items, setItems] = useState<IItem[]>(hardcodedItems)
   const [locked, setLocked] = useState<boolean>(false)
-  const [session, setSession] = useState<ISession>({
-    status: false,
-    list_id: null,
-  })
+  const { session, setSession } = useContext(SessionContext) as ISessionContext
+  // const [session, setSession] = useState<ISession>({
+  //   status: false,
+  //   list_id: null,
+  // })
   const [showAuthMenu, setShowAuthMenu] = useState<boolean>(false)
 
   const location = useLocation()
@@ -73,12 +75,21 @@ const List = () => {
           })}
         </ul>
 
-        <div className={styles.authMenuWrapper}>
+        <div
+          className={
+            showAuthMenu
+              ? [styles.authMenuWrapper, styles.show].join(" ")
+              : styles.authMenuWrapper
+          }
+        >
           <AuthMenu locked={locked} session={session} />
         </div>
 
-        <div className={styles.authBtnWrapper}>
-          <AuthBtn locked={locked} setLocked={setLocked} />
+        <div
+          className={styles.authBtnWrapper}
+          onClick={() => setShowAuthMenu(!showAuthMenu)}
+        >
+          <AuthBtn locked={locked} />
         </div>
       </main>
     </div>

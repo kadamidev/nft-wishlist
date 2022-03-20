@@ -1,7 +1,8 @@
 .lockBtn {
   width: 60px;
   height: 60px;
-  background: white;
+  background: hsla(0, 0%, 100%, 0.85);
+  backdrop-filter: blur(6px);
   cursor: pointer;
   border: 2px solid var(--primary-color);
   border-radius: 10px;

@@ -31,6 +31,21 @@
       bottom: var(--lr-margin);
       left: var(--lr-margin);
     }
+
+    .authMenuWrapper {
+      position: fixed;
+      left: 50%;
+      top: 50%;
+      transform: translate(-50%, -50%);
+      pointer-events: none;
+      opacity: 0;
+      transition: all 0.3s;
+    }
+
+    .show {
+      pointer-events: all;
+      opacity: 100%;
+    }
   }
 }
 
