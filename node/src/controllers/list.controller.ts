@@ -39,10 +39,9 @@ export async function getListHandler(
   const list = await findList({ listId: listId })
 
   if (!list) return res.status(404).send("Invalid list")
-  const cleaned = { ...list }
-  delete cleaned.password
+  const lockedFlag = list.password ? true : false
 
-  res.send(cleaned)
+  return res.send({ ...list, password: lockedFlag })
 }
 
 export async function deleteListHandler(
@@ -54,7 +53,7 @@ export async function deleteListHandler(
   const list = await deleteList({ _id: listId })
 
   if (!list) {
-    res.status(404).send("Invalid list")
+    return res.status(404).send("Invalid list")
   }
   return res.status(200).send({ message: "successfully deleted" })
 }

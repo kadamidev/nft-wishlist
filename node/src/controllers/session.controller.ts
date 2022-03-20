@@ -20,7 +20,10 @@ export async function createListSessionHandler(req: Request, res: Response) {
     session._id,
     list._id
   )
-
+  res.cookie("x-cs-access-token", accessToken, {
+    ...cookieOptions,
+    httpOnly: false,
+  })
   res.cookie("x-access-token", accessToken, cookieOptions)
   res.cookie("x-refresh-token", refreshToken, cookieOptions)
 
