@@ -4,8 +4,6 @@ import Navbar from "./components/Navbar/Navbar"
 import AddLink from "./components/AddLink/AddLink"
 import Card from "./components/Card/Card"
 import { useLocation } from "react-router-dom"
-import locked from "./assets/lock.svg"
-import unlocked from "./assets/unlock.svg"
 import AuthBtn from "./components/AuthBtn/AuthBtn"
 import AuthMenu from "./components/AuthMenu/AuthMenu"
 import { SessionContext, ISessionContext } from "./SessionContext"
@@ -31,11 +29,8 @@ export const hardcodedItems = [
 const List = () => {
   const [items, setItems] = useState<IItem[]>(hardcodedItems)
   const [locked, setLocked] = useState<boolean>(false)
-  const { session, setSession } = useContext(SessionContext) as ISessionContext
-  // const [session, setSession] = useState<ISession>({
-  //   status: false,
-  //   list_id: null,
-  // })
+  const { setLocalSession } = useContext<ISessionContext>(SessionContext)
+
   const [showAuthMenu, setShowAuthMenu] = useState<boolean>(false)
 
   const location = useLocation()
@@ -48,10 +43,12 @@ const List = () => {
       const res = await fetch(url)
       const list = await res.json()
       console.log(list)
+      setLocked(list.password)
       setItems(list.items)
+      setLocalSession(list.authed, list._id)
     }
     fetchItems()
-  }, [])
+  }, [listId])
 
   return (
     <div className={styles.container}>
@@ -82,7 +79,12 @@ const List = () => {
               : styles.authMenuWrapper
           }
         >
-          <AuthMenu locked={locked} session={session} />
+          <AuthMenu
+            locked={locked}
+            listId={listId}
+            setLocked={setLocked}
+            setShowAuthMenu={setShowAuthMenu}
+          />
         </div>
 
         <div

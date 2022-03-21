@@ -8,16 +8,16 @@ import { SessionProvider } from "./SessionContext"
 
 ReactDOM.render(
   <React.StrictMode>
-    <BrowserRouter>
-      <Routes>
-        <Route path="/" element={<App />} />
-        <SessionProvider>
+    <SessionProvider>
+      <BrowserRouter>
+        <Routes>
+          <Route path="/" element={<App />} />
           <Route path="/list" element={<List />}>
             <Route path=":listId" element={<List />} />
           </Route>
-        </SessionProvider>
-      </Routes>
-    </BrowserRouter>
+        </Routes>
+      </BrowserRouter>
+    </SessionProvider>
   </React.StrictMode>,
   document.getElementById("root")
 )
