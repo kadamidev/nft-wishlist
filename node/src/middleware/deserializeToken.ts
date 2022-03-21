@@ -28,12 +28,6 @@ export default async function deserializeToken(
         httpOnly: true,
       })
 
-      res.cookie("x-cs-access-token", newAccessToken, {
-        path: "/",
-        sameSite: true,
-        httpOnly: false,
-      })
-
       const { decoded } = verifyJwt(newAccessToken)
 
       res.locals.auth = decoded

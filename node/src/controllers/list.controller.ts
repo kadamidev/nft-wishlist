@@ -40,8 +40,9 @@ export async function getListHandler(
 
   if (!list) return res.status(404).send("Invalid list")
   const lockedFlag = list.password ? true : false
+  const authedFlag = res.locals.auth?.list_id === list._id.toString()
 
-  return res.send({ ...list, password: lockedFlag })
+  return res.send({ ...list, password: lockedFlag, authed: authedFlag })
 }
 
 export async function deleteListHandler(
