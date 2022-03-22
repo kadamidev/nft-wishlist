@@ -1,23 +1,35 @@
-import React, { useEffect, useState } from "react"
+import React, { useEffect, useState, useContext } from "react"
 import styles from "./Card.module.scss"
 import trashSvg from "../../assets/trash.svg"
 import osSvg from "../../assets/os.svg"
 import { IItem } from "../../List"
 import leanAsset, { IAsset } from "../../utils/leanAsset"
+import { SessionContext, ISessionContext } from "../../SessionContext"
+
 interface Props {
   item: IItem
   listId: string
   items: IItem[]
   setItems: React.Dispatch<React.SetStateAction<IItem[]>>
-  key: string
+  reactKey: string
+  locked: boolean
 }
 
-const Card: React.FC<Props> = ({ item, listId, items, setItems, key }) => {
+const Card: React.FC<Props> = ({
+  item,
+  listId,
+  items,
+  setItems,
+  reactKey,
+  locked,
+}) => {
   const [asset, setAsset] = useState<IAsset>({
     name: "loading",
     collection: { name: "loading" },
     image_url: "loading",
   })
+
+  const { session } = useContext<ISessionContext>(SessionContext)
 
   //load asset from cache if exists else fetch
   useEffect(() => {
@@ -27,7 +39,7 @@ const Card: React.FC<Props> = ({ item, listId, items, setItems, key }) => {
 
     if (cached) {
       setAsset(JSON.parse(cached))
-    } else if (item.contract != "loading") {
+    } else if (item.contract !== "loading") {
       fetchAndCacheAsset()
     }
   }, [])
@@ -57,7 +69,7 @@ const Card: React.FC<Props> = ({ item, listId, items, setItems, key }) => {
     <li
       className={styles.cardContainer}
       style={asset.image_url === "loading" ? { display: "none" } : undefined}
-      key={key}
+      key={reactKey}
     >
       <img src={asset.image_url} className={styles.image}></img>
 
@@ -70,12 +82,14 @@ const Card: React.FC<Props> = ({ item, listId, items, setItems, key }) => {
         </div>
 
         <div className={styles.bottomButtons}>
-          <img
-            className={styles.trashIcon}
-            src={trashSvg}
-            alt="Delete icon"
-            onClick={deleteItem}
-          />
+          {((locked && session.status) || !locked) && (
+            <img
+              className={styles.trashIcon}
+              src={trashSvg}
+              alt="Delete icon"
+              onClick={deleteItem}
+            />
+          )}
           <a
             target="_blank"
             rel="noreferrer"

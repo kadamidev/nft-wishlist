@@ -29,7 +29,8 @@ export const hardcodedItems = [
 const List = () => {
   const [items, setItems] = useState<IItem[]>(hardcodedItems)
   const [locked, setLocked] = useState<boolean>(false)
-  const { setLocalSession } = useContext<ISessionContext>(SessionContext)
+  const { setLocalSession, session } =
+    useContext<ISessionContext>(SessionContext)
 
   const [showAuthMenu, setShowAuthMenu] = useState<boolean>(false)
 
@@ -56,17 +57,21 @@ const List = () => {
         <Navbar code={listId} />
       </nav>
       <main>
-        <AddLink listId={listId} items={items} setItems={setItems} />
+        {((locked && session.status) || !locked) && (
+          <AddLink listId={listId} items={items} setItems={setItems} />
+        )}
 
         <ul className={styles.cardsGrid}>
           {items.map((item, index) => {
             return (
               <Card
+                reactKey={item.contract + item.tokenId + index}
                 key={item.contract + item.tokenId + index}
                 item={item}
                 listId={listId}
                 items={items}
                 setItems={setItems}
+                locked={locked}
               />
             )
           })}

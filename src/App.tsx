@@ -66,7 +66,9 @@ function App() {
           </div>
           <ul>
             {recentsList.map((id) => (
-              <li onClick={() => navigate(`/list/${id}`)}>{id}</li>
+              <li key={id} onClick={() => navigate(`/list/${id}`)}>
+                {id}
+              </li>
             ))}
           </ul>
         </div>
