@@ -3,6 +3,7 @@ import styles from "./AuthMenu.module.scss"
 import lockedSvg from "../../assets/lock.svg"
 import unlockedSvg from "../../assets/unlock.svg"
 import { SessionContext, ISessionContext } from "../../SessionContext"
+import { useNavigate } from "react-router-dom"
 
 interface Props {
   locked: boolean
@@ -23,6 +24,18 @@ const AuthMenu: React.FC<Props> = ({
 
   const { session, setLocalSession } =
     useContext<ISessionContext>(SessionContext)
+  const navigate = useNavigate()
+
+  const removeFromRecents = (listId: string) => {
+    const recents = window.localStorage.getItem("recents")
+    const newRecents = recents ? JSON.parse(recents) : null
+    if (newRecents) {
+      window.localStorage.setItem(
+        "recents",
+        JSON.stringify(newRecents.filter((id: string) => id !== listId))
+      )
+    }
+  }
 
   const handleLock = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
@@ -87,7 +100,8 @@ const AuthMenu: React.FC<Props> = ({
     fetch(url, {
       method: "DELETE",
     })
-    //redirect to home
+    removeFromRecents(listId)
+    navigate("/")
   }
 
   const handleUnlock = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {

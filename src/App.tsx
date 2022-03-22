@@ -18,7 +18,6 @@ function App() {
 
     newRecents.unshift(id)
     setRecentsList(newRecents)
-    console.log(recentsList)
   }
 
   const handleJoin = async (e: React.FormEvent<HTMLFormElement>) => {
