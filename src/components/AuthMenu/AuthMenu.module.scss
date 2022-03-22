@@ -11,6 +11,20 @@
   background: hsla(0, 0%, 100%, 0.95);
   backdrop-filter: blur(6px);
 
+  .closeBtn {
+    color: var(--primary-color);
+    cursor: pointer;
+    position: fixed;
+    right: 20px;
+    top: 10px;
+    transition: transform 0.2s;
+
+    &:hover {
+      transform-origin: center;
+      transform: scale(1.15);
+    }
+  }
+
   .lockImg {
     // margin-top: 20px;
     padding: 10px 15px;

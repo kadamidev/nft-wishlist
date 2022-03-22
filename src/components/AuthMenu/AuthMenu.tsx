@@ -106,6 +106,9 @@ const AuthMenu: React.FC<Props> = ({
 
   return (
     <div className={styles.authMenuContainer}>
+      <span className={styles.closeBtn} onClick={() => setShowAuthMenu(false)}>
+        X
+      </span>
       <img
         className={styles.lockImg}
         src={locked ? lockedSvg : unlockedSvg}
