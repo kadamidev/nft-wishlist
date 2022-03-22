@@ -34,12 +34,11 @@ const AuthMenu: React.FC<Props> = ({
       },
       body: JSON.stringify({ password: passwordField }),
     })
-    const list = await res.json()
     setPasswordField("")
     setPasswordPlaceholder("locking...")
     if (res.ok) {
       setLocked(true)
-      setLocalSession(true, list._id)
+      setLocalSession(true)
       setPasswordPlaceholder("password")
     }
   }
@@ -58,11 +57,10 @@ const AuthMenu: React.FC<Props> = ({
         password: passwordField,
       }),
     })
-    const list = await res.json()
     setPasswordField("")
     setPasswordPlaceholder("authenticating...")
     if (res.ok) {
-      setLocalSession(true, list._id)
+      setLocalSession(true)
       setPasswordPlaceholder("password")
 
       return
@@ -74,7 +72,7 @@ const AuthMenu: React.FC<Props> = ({
     e: React.MouseEvent<HTMLButtonElement, MouseEvent>
   ) => {
     e.preventDefault()
-    setLocalSession(false, session.list_id)
+    setLocalSession(false)
     const url = `/api/sessions/`
     fetch(url, {
       method: "DELETE",
@@ -95,7 +93,7 @@ const AuthMenu: React.FC<Props> = ({
   const handleUnlock = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
     e.preventDefault()
     setLocked(false)
-    setLocalSession(false, session.list_id)
+    setLocalSession(false)
     const url = `/api/list/${listId}/`
     fetch(url, {
       method: "PUT",
