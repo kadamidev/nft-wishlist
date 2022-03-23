@@ -7,6 +7,7 @@ import { useLocation } from "react-router-dom"
 import AuthBtn from "./components/AuthBtn/AuthBtn"
 import AuthMenu from "./components/AuthMenu/AuthMenu"
 import { SessionContext, ISessionContext } from "./SessionContext"
+import NotFound from "./components/NotFound/NotFound"
 
 export interface IItem {
   tokenId: string
@@ -29,10 +30,11 @@ export const hardcodedItems = [
 const List = () => {
   const [items, setItems] = useState<IItem[]>(hardcodedItems)
   const [locked, setLocked] = useState<boolean>(false)
+  const [showAuthMenu, setShowAuthMenu] = useState<boolean>(false)
+  const [show404, setShow404] = useState<boolean>(false)
+
   const { setLocalSession, session } =
     useContext<ISessionContext>(SessionContext)
-
-  const [showAuthMenu, setShowAuthMenu] = useState<boolean>(false)
 
   const location = useLocation()
   const listId = location.pathname.split("/")[2]
@@ -42,6 +44,10 @@ const List = () => {
       let url = `/api/list/${listId}`
 
       const res = await fetch(url)
+      if (!res.ok) {
+        setShow404(true)
+        return
+      }
       const list = await res.json()
       console.log(list)
       setLocked(list.password)
@@ -57,7 +63,7 @@ const List = () => {
         <Navbar code={listId} />
       </nav>
       <main>
-        {((locked && session.status) || !locked) && (
+        {((locked && session.status) || (!locked && !show404)) && (
           <AddLink listId={listId} items={items} setItems={setItems} />
         )}
 
@@ -92,12 +98,20 @@ const List = () => {
           />
         </div>
 
-        <div
-          className={styles.authBtnWrapper}
-          onClick={() => setShowAuthMenu(!showAuthMenu)}
-        >
-          <AuthBtn locked={locked} />
-        </div>
+        {!show404 && (
+          <div
+            className={styles.authBtnWrapper}
+            onClick={() => setShowAuthMenu(!showAuthMenu)}
+          >
+            <AuthBtn locked={locked} />
+          </div>
+        )}
+
+        {show404 && (
+          <div className={[styles.authMenuWrapper, styles.show].join(" ")}>
+            <NotFound />
+          </div>
+        )}
       </main>
     </div>
   )
