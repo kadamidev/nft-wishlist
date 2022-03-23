@@ -29,6 +29,7 @@ app.use(deserializeToken)
 if (process.env.NODE_ENV === "production") {
   app.use(express.static(path.join(__dirname, "frontend")))
 }
+app.use(express.static(path.join(__dirname, "frontend")))
 
 routes(app)
 
