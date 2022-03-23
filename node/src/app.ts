@@ -1,4 +1,4 @@
-import express, { Request, Response, NextFunction } from "express"
+import express, { Request, Response } from "express"
 import routes from "./routes"
 import helmet from "helmet"
 import connect from "./utils/connect"
@@ -11,7 +11,11 @@ import deserializeToken from "./middleware/deserializeToken"
 const app = express()
 const port = process.env.PORT || 3001
 
-app.use(helmet())
+app.use(
+  helmet({
+    crossOriginEmbedderPolicy: false,
+  })
+)
 app.use(
   helmet.contentSecurityPolicy({
     directives: {
@@ -29,7 +33,6 @@ app.use(deserializeToken)
 if (process.env.NODE_ENV === "production") {
   app.use(express.static(path.join(__dirname, "frontend")))
 }
-app.use(express.static(path.join(__dirname, "frontend")))
 
 routes(app)
 

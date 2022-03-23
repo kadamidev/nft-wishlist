@@ -1,13 +1,14 @@
 import jwt from "jsonwebtoken"
 
-const privKey = process.env.JWT_PRIV
-const pubKey = process.env.JWT_PUB
+const privKey = process.env.JWT_PRIV!
+const pubKey = process.env.JWT_PUB!
 
 export function signJwt(
   payload: Object,
   options?: jwt.SignOptions | undefined
 ) {
-  return jwt.sign(payload, privKey!, {
+  console.log(pubKey)
+  return jwt.sign(payload, privKey, {
     ...(options && options),
     algorithm: "RS256",
   })
@@ -15,7 +16,7 @@ export function signJwt(
 
 export function verifyJwt(token: string) {
   try {
-    const decoded = jwt.verify(token, pubKey!)
+    const decoded = jwt.verify(token, pubKey)
     return {
       valid: true,
       expired: false,
