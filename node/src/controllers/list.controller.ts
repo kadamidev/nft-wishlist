@@ -98,7 +98,7 @@ export async function updateListHandler( //change pw
     res.cookie("x-access-token", accessToken, cookieOptions)
     res.cookie("x-refresh-token", refreshToken, cookieOptions)
   } else {
-    updateSessions({ list_id: updatedList._id }, { valid: false })
+    updateSessions({ list: updatedList._id }, { valid: false })
     res.cookie("x-access-token", null)
     res.cookie("x-refresh-token", null)
   }
