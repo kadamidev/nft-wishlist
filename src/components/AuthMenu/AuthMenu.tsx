@@ -58,7 +58,6 @@ const AuthMenu: React.FC<Props> = ({
 
   const handleAuth = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
-    console.log(session.list_id)
     const url = `/api/sessions/`
     const res = await fetch(url, {
       method: "POST",

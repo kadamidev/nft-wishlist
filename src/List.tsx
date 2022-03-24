@@ -51,7 +51,7 @@ const List = () => {
         return
       }
       const list = await res.json()
-      console.log(list)
+      if (process.env.NODE_ENV !== "production") console.log(list)
       setLocked(list.password)
       setItems(list.items)
       setLocalSession(list.authed, list._id)
