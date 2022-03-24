@@ -8,6 +8,7 @@ import AuthBtn from "./components/AuthBtn/AuthBtn"
 import AuthMenu from "./components/AuthMenu/AuthMenu"
 import { SessionContext, ISessionContext } from "./SessionContext"
 import NotFound from "./components/NotFound/NotFound"
+import useLocalStorage from "./utils/useLocalStorage"
 
 export interface IItem {
   tokenId: string
@@ -32,6 +33,7 @@ const List = () => {
   const [locked, setLocked] = useState<boolean>(false)
   const [showAuthMenu, setShowAuthMenu] = useState<boolean>(false)
   const [show404, setShow404] = useState<boolean>(false)
+  const [recentsList, setRecentsList] = useLocalStorage<string[]>("recents", [])
 
   const { setLocalSession, session } =
     useContext<ISessionContext>(SessionContext)
@@ -53,9 +55,19 @@ const List = () => {
       setLocked(list.password)
       setItems(list.items)
       setLocalSession(list.authed, list._id)
+      addToRecents(list.listId)
     }
     fetchItems()
   }, [listId])
+
+  function addToRecents(id: string) {
+    const newRecents = [...recentsList]
+    const existsIdx = recentsList.findIndex((el) => el === id)
+    if (existsIdx !== -1) newRecents.splice(existsIdx, 1)
+
+    newRecents.unshift(id)
+    setRecentsList(newRecents)
+  }
 
   return (
     <div className={styles.container}>

@@ -11,15 +11,6 @@ function App() {
   const [recentsList, setRecentsList] = useLocalStorage<string[]>("recents", [])
   const navigate = useNavigate()
 
-  function addToRecents(id: string) {
-    const newRecents = [...recentsList]
-    const existsIdx = recentsList.findIndex((el) => el === id)
-    if (existsIdx !== -1) newRecents.splice(existsIdx, 1)
-
-    newRecents.unshift(id)
-    setRecentsList(newRecents)
-  }
-
   const handleJoin = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
 
@@ -28,7 +19,6 @@ function App() {
     const res = await fetch(url)
     if (res.ok) {
       const list = await res.json()
-      addToRecents(list.listId)
       setListId("")
       navigate(`/list/${list.listId}`)
     } else {
@@ -44,7 +34,6 @@ function App() {
       method: "POST",
     })
     const newList = await res.json()
-    addToRecents(newList.listId)
     navigate(`/list/${newList.listId}`)
   }
 
