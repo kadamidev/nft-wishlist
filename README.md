@@ -24,7 +24,7 @@ A practise project using typescript react+express & mongodb, the basic concept i
 
 # Local usage instructions
 
-1. configure the .env args
+1. configure the .env args (sample.env contains the necessary args)
 2. `npm install` in the root directory
 3. run `npm run build` script in root directory
 4. run `npm run start` script in root directory
