@@ -40,15 +40,17 @@ const AuthMenu: React.FC<Props> = ({
   const handleLock = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
     const url = `/api/list/${listId}/`
+    const password = passwordField.valueOf()
+    setPasswordField("")
+    setPasswordPlaceholder("locking...")
+
     const res = await fetch(url, {
       method: "PUT",
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify({ password: passwordField }),
+      body: JSON.stringify({ password: password }),
     })
-    setPasswordField("")
-    setPasswordPlaceholder("locking...")
     if (res.ok) {
       setLocked(true)
       setLocalSession(true)
@@ -59,6 +61,10 @@ const AuthMenu: React.FC<Props> = ({
   const handleAuth = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
     const url = `/api/sessions/`
+    const password = passwordField.valueOf()
+    setPasswordField("")
+    setPasswordPlaceholder("authenticating...")
+
     const res = await fetch(url, {
       method: "POST",
       headers: {
@@ -66,11 +72,10 @@ const AuthMenu: React.FC<Props> = ({
       },
       body: JSON.stringify({
         _id: session.list_id,
-        password: passwordField,
+        password: password,
       }),
     })
-    setPasswordField("")
-    setPasswordPlaceholder("authenticating...")
+
     if (res.ok) {
       setLocalSession(true)
       setPasswordPlaceholder("password")
