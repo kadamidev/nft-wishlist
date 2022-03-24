@@ -7,7 +7,6 @@ export function signJwt(
   payload: Object,
   options?: jwt.SignOptions | undefined
 ) {
-  console.log(pubKey)
   return jwt.sign(payload, privKey, {
     ...(options && options),
     algorithm: "RS256",
