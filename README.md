@@ -2,6 +2,9 @@
 
 A practise project using typescript react+express & mongodb, the basic concept is a shortlist of NFTs that you can easily share and edit with your friends via unique link/code.
 
+<a href="https://wishlistos.herokuapp.com/">![Demo](https://img.shields.io/badge/-Live_Demo-4E4E4E?style=for-the-badge&logo=heroku)</a>
+<a href="https://wishlistos.herokuapp.com/list/55rvomxi4f">![Demo](https://img.shields.io/badge/-Locked_Demo-4E4E4E?style=for-the-badge&logo=heroku)</a>
+
 ## Functionality
 
 - Create lists
