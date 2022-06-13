@@ -20,8 +20,8 @@ const AddLink = ({ listId, items, setItems }: Props) => {
     setPlaceholder("Adding item...")
 
     const splitLink = link.split("/")
-    const contract = splitLink[4]
-    const tokenId = splitLink[5]
+    const contract = splitLink[5]
+    const tokenId = splitLink[6]
 
     //fetch from opensea and check validity
     const asset = await fetchAsset(contract, tokenId)
